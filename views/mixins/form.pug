@@ -1,0 +1,37 @@
+include fields
+
+mixin metaform(viewModel, action)
+  form.metaform(data-action=action)
+    each section, index in viewModel.sections 
+      .row
+        section.col-12(data-visible-if=section['visible-if'], id="section-" + index)
+          .row
+            .col-12
+              h2
+                =section.title
+          .row
+            .col-12
+              small
+                =section.description
+          .row
+            fieldset.col-12
+              each field in section.fields
+                +field(field)
+                
+mixin metaformScripts()
+  script(defer='defer',src='//cdn.metatavu.io/libs/jquery.fileupload/9.14.2/js/jquery.iframe-transport.js',type='text/javascript')
+  script(defer='defer',src='//cdn.metatavu.io/libs/jquery.fileupload/9.14.2/js/jquery.fileupload.js',type='text/javascript')
+  script(defer='defer',src='//cdn.metatavu.io/libs/pdfmake/0.1.24/pdfmake.min.js')
+  script(defer='defer',src='//cdn.metatavu.io/libs/pdfmake/0.1.24/vfs_fonts.js')
+  script(defer='defer',src='//cdn.metatavu.io/libs/hyperform/0.8.15/hyperform.min.js',type='text/javascript')
+  script(defer='defer',src='//cdn.metatavu.io/libs/flatpickr/2.6.1/flatpickr.js',type='text/javascript')
+  script(defer='defer',src='//cdn.metatavu.io/libs/flatpickr/2.6.1/l10n/fi.js',type='text/javascript')
+  script(defer='defer',src='//cdn.metatavu.io/libs/bootbox-js/4.4.0/bootbox.min.js',type='text/javascript')
+  script(defer='defer',src='/metaform/js/modernizr.js')
+  script(defer='defer',src='/metaform/js/form-utils.js')
+  script(defer='defer',src='/metaform/js/form.js')
+                
+mixin metaformStyles() 
+  link(rel='stylesheet', href='/metaform/css/form.min.css')
+  link(rel='stylesheet', href='//cdn.metatavu.io/libs/hyperform/0.8.15/hyperform.min.css')
+  link(rel='stylesheet', href='//cdn.metatavu.io/libs/flatpickr/2.6.1/flatpickr.min.css')
