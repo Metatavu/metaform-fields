@@ -558,6 +558,8 @@
   $.widget("custom.fileField", {
     
     _create : function() {
+      this._uploadUrl = this.element.attr('data-upload-url') ? this.element.attr('data-upload-url') : '/upload/';
+      this._singleFile = this.element.attr('data-single-file') ? true : false;
       this.element.find('.add-file-button').on("click", $.proxy(this._onAddFileButtonClick, this));
       this.element.on('click', '.remove-file-button', $.proxy(this._onRemoveFileButtonClick, this));
       
@@ -569,7 +571,7 @@
         .fileupload({
           maxFileSize: 209715200,
           dataType: 'json',
-          url: '/upload',
+          url: this._uploadUrl,
           add : $.proxy(this._onUploadAdd, this),
           fail: $.proxy(this._onUploadFail, this),
           done : $.proxy(this._onUploadDone, this),
@@ -605,6 +607,10 @@
     },
     
     _onUploadDone: function (event, data) {
+      if (this._singleFile) {
+        this.element.find('.remove-file-button').click();
+      }
+      
       this.element.find('.add-file-button')
         .removeAttr('disabled')
         .prop('disabled', false)
@@ -630,13 +636,13 @@
           .attr({
             'type': 'hidden',
             'name': this.element.attr('data-field-name'),
-            'value': file._id
+            'value': file.url || file._id
           })
           .appendTo(cell);
         
         $('<a>')
           .attr({
-            'href': '/upload/' + file.fileData,
+            'href': file.url || this._uploadUrl + file.fileData,
             'target': 'blank'
           })
           .text(file.originalname)
@@ -644,10 +650,13 @@
        
         $('<button>')
           .addClass('remove-file-button btn btn-danger btn-sm float-right')
-          .attr('data-id', file._id)
+          .attr('data-id', file._id || file.filename)
+          .attr('data-delete-key', file.deleteKey || '')
           .text('Poista')
           .appendTo(cell);
-          
+        
+        $(this.element).trigger('metaform:file-added');
+        
       }, this));
     },
     
@@ -663,12 +672,19 @@
       event.preventDefault();
       var button = $(event.target).closest('.remove-file-button');
       var fileId = button.attr('data-id');
+      var deleteKey = button.attr('data-delete-key');
+      
+      let url = this._uploadUrl + fileId;
+      if (deleteKey && deleteKey.length > 0) {
+        url += '?c=' + deleteKey;
+      }
       
       $.ajax({
-        url: '/upload/' + fileId,
+        url: url,
         method: 'DELETE',
         success: $.proxy(function(res) {
           $(button).closest('.file').remove();
+          $(this.element).trigger('metaform:file-removed');
         }, this)
       });
     }
