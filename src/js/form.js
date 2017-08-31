@@ -560,23 +560,32 @@
     _create : function() {
       this._uploadUrl = this.element.attr('data-upload-url') ? this.element.attr('data-upload-url') : '/upload/';
       this._singleFile = this.element.attr('data-single-file') ? true : false;
+      this._onlyImages = this.element.attr('data-only-images') ? true : false;
+      this._maxFileSize = this.element.attr('data-max-file-size') ? parseInt(this.element.attr('data-max-file-size')) : 209715200;
       this.element.find('.add-file-button').on("click", $.proxy(this._onAddFileButtonClick, this));
       this.element.on('click', '.remove-file-button', $.proxy(this._onRemoveFileButtonClick, this));
+      
+      
+      const fileUploadOptions = {
+        maxFileSize: this._maxFileSize,
+        dataType: 'json',
+        url: this._uploadUrl,
+        add : $.proxy(this._onUploadAdd, this),
+        fail: $.proxy(this._onUploadFail, this),
+        done : $.proxy(this._onUploadDone, this),
+        progressall : $.proxy(this._onProgressAll, this) 
+      };
+      
+      if (this._onlyImages) {
+        fileUploadOptions.acceptFileTypes = /(\.|\/)(gif|jpe?g|png)$/i;
+      }
       
       this.element.find('.progress-bar').hide();
       this.element.find('input[type="file"]')
         .css({
           opacity: 0
         })
-        .fileupload({
-          maxFileSize: 209715200,
-          dataType: 'json',
-          url: this._uploadUrl,
-          add : $.proxy(this._onUploadAdd, this),
-          fail: $.proxy(this._onUploadFail, this),
-          done : $.proxy(this._onUploadDone, this),
-          progressall : $.proxy(this._onProgressAll, this) 
-        });
+        .fileupload(fileUploadOptions);
     },
     
     _onAddFileButtonClick: function (event) {
@@ -603,7 +612,19 @@
     },
     
     _onUploadFail: function (event, data) {
-      
+      const notification = $('<div>')
+         .addClass('alert alert-danger fixed-top')
+         .text('Kuvan lähetys epäonnistui. Tarkista koko ja tiedostomuoto.')
+         .appendTo(document.body);
+ 
+      this.element.find('.add-file-button')
+        .removeAttr('disabled')
+        .prop('disabled', false)
+        .removeClass('disabled');
+
+      setTimeout(() => {
+        notification.remove();
+      }, 5000);
     },
     
     _onUploadDone: function (event, data) {
