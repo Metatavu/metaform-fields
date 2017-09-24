@@ -11,6 +11,9 @@ mixin text-field(field, value, readonly)
       if field.help
         small.form-text.text-muted
           =field.help
+
+mixin hidden-field(field, value)
+  input(type="hidden",name=field.name,value=value)
           
 mixin email-field(field, value, readonly)
   .form-group.row(data-visible-if=field['visible-if'],id="fg-" + field.name)
@@ -345,6 +348,8 @@ mixin field(field, value, readonly)
   case field.type 
     when 'text'
       +text-field(field, value, readonly)
+    when 'hidden'
+      +hidden-field(field, value)
     when 'email'
       +email-field(field, value, readonly)
     when 'number'
