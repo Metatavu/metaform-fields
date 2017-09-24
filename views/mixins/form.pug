@@ -1,6 +1,6 @@
 include fields
 
-mixin metaform(viewModel, action)
+mixin metaform(viewModel, action, formValues)
   form.metaform(data-action=action)
     each section, index in viewModel.sections 
       .row
@@ -16,7 +16,7 @@ mixin metaform(viewModel, action)
           .row
             fieldset.col-12
               each field in section.fields
-                +field(field)
+                +field(field, formValues ? formValues[field.name] : null)
                 
 mixin metaformScripts()
   script(defer='defer',src='//cdn.metatavu.io/libs/jquery.fileupload/9.14.2/js/jquery.iframe-transport.js',type='text/javascript')
