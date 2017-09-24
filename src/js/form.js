@@ -111,6 +111,18 @@
       });
     },
     
+    val: function (item) {
+      if (item === undefined) {
+        return {
+          value: this.element.val(),
+          label: this._getInput().val()
+        };
+      } else {
+        this.element.val(item.label);
+        this._getInput().val(item.value);
+      }
+    },
+    
     _getInput: function () {
       var inputName = this.element.attr('data-name');
       return $('input[name="' + inputName + '"]');
@@ -125,10 +137,7 @@
     _onSelect: function (event, ui) {
       event.preventDefault();
       var item = ui.item;
-      var id = item.value;
-      
-      this.element.val(item.label);
-      this._getInput().val(id);
+      this.val(item.value, item.label);
       this._selected = true;
     },
 
@@ -146,8 +155,7 @@
     
     _onChange: function (input, callback) {
       if (!this._selected) {
-        this._getInput().val(this._originalValue);
-        this.element.val(this._originalLabel);
+        this.val(this._originalValue, this._originalLabel);
       }
       
       this._originalValue = null;
