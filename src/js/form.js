@@ -333,21 +333,29 @@
         url: this.element.attr('data-action') || '/formReply',
         data: data,
         method: 'POST',
-        success: function() {
-          bootbox.alert({
-            message: '<i class="fa fa-check" /><h3>Lomake lähetettiin onnistuneesti.</h3>',
-            backdrop: true,
-            callback: function(){
-              window.location.reload(true);
-            }
-          });
+        success: (response) => {
+          if ($.isFunction(this.options.onPostSuccess)) {
+            this.options.onPostSuccess(response);
+          } else {
+            bootbox.alert({
+              message: '<i class="fa fa-check" /><h3>Lomake lähetettiin onnistuneesti.</h3>',
+              backdrop: true,
+              callback: function(){
+                window.location.reload(true);
+              }
+            });
+          }
         },
-        error: function (jqXHR, textStatus) {
+        error: (jqXHR, textStatus) => {
           var errorMessage = textStatus ? jqXHR.responseText || jqXHR.statusText || textStatus : null;
-          $('<div>')
-            .addClass('alert alert-danger fixed-top')
-            .text('Lomakkeen lähetys epäonnistui: ' + errorMessage)
-            .appendTo(document.body);        
+          if ($.isFunction(this.options.onPostError)) {
+            this.options.onPostError(errorMessage, jqXHR);
+          } else {
+            $('<div>')
+              .addClass('alert alert-danger fixed-top')
+              .text('Lomakkeen lähetys epäonnistui: ' + errorMessage)
+              .appendTo(document.body);
+          }
         }
       });
     }
