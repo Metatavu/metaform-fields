@@ -137,7 +137,7 @@
     _onSelect: function (event, ui) {
       event.preventDefault();
       var item = ui.item;
-      this.val(item.value, item.label);
+      this.val(item);
       this._selected = true;
     },
 
@@ -155,7 +155,10 @@
     
     _onChange: function (input, callback) {
       if (!this._selected) {
-        this.val(this._originalValue, this._originalLabel);
+        this.val({
+          value: this._originalValue, 
+          label: this._originalLabel
+        });
       }
       
       this._originalValue = null;
