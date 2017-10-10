@@ -196,6 +196,10 @@
       this._createAutocompleteFields();
     },
     
+    val: function (returnArray) {
+      return returnArray ? this.element.serializeArray() : this.element.serialize();
+    },
+    
     _createDatePickers: function () {
       this.element.find('input[data-type="date"]').each(function (index, input) {
         MetaformUtils.createDatePicker(input);
@@ -330,7 +334,7 @@
 
     _onFormSubmit: function (event) {
       event.preventDefault();
-      var data = this.element.serialize();
+      var data = this.val(false);
 
       $.ajax({
         url: this.element.attr('data-action') || '/formReply',
