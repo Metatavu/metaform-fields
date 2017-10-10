@@ -114,8 +114,8 @@
     val: function (item) {
       if (item === undefined) {
         return {
-          value: this.element.val(),
-          label: this._getInput().val()
+          value: this._getInput().val(),
+          label: this.element.val()
         };
       } else {
         this.element.val(item.label);
