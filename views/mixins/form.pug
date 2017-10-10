@@ -31,6 +31,9 @@ mixin metaformScripts()
   script(defer='defer',src='/metaform/js/form-utils.js')
   script(defer='defer',src='/metaform/js/form.js')
                 
+mixin metaformClientSupport()
+  script(defer='defer',src='/metaform/js/metaform-client.min.js')
+                
 mixin metaformStyles() 
   link(rel='stylesheet', href='/metaform/css/form.min.css')
   link(rel='stylesheet', href='//cdn.metatavu.io/libs/hyperform/0.8.15/hyperform.min.css')

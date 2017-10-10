@@ -114,8 +114,8 @@
     val: function (item) {
       if (item === undefined) {
         return {
-          value: this.element.val(),
-          label: this._getInput().val()
+          value: this._getInput().val(),
+          label: this.element.val()
         };
       } else {
         this.element.val(item.label);
@@ -194,6 +194,10 @@
       this._createTimePickers();
       this._createDateTimePickers();
       this._createAutocompleteFields();
+    },
+    
+    val: function (returnArray) {
+      return returnArray ? this.element.serializeArray() : this.element.serialize();
     },
     
     _createDatePickers: function () {
@@ -330,7 +334,7 @@
 
     _onFormSubmit: function (event) {
       event.preventDefault();
-      var data = this.element.serialize();
+      var data = this.val(false);
 
       $.ajax({
         url: this.element.attr('data-action') || '/formReply',

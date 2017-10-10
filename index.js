@@ -10,7 +10,7 @@
   class LocalizationUtils {
 
     static resolveLocaleKey(string) {
-      const match = /^\[\[([.a-z-A-Z0-9]*)\]\]$/.exec(string);
+      const match = /^\[\[([.a-z-A-Z0-9_-]*)\]\]$/.exec(string);
       if (match && match.length > 1) {
         return match[1];
       }
