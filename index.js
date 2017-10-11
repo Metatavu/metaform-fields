@@ -41,6 +41,15 @@
       _.forEach(localizableProperties, (localizableProperty) => {
         LocalizationUtils.localizeProperty(i18n, formField, localizableProperty);
       });
+      
+      if (formField.columns) {
+        _.forEach(formField.columns, (column) => {
+          LocalizationUtils.localizeProperty(i18n, column, 'title');
+          _.forEach(column.values||[], (columnValue) => {
+            LocalizationUtils.localizeProperty(i18n, columnValue, 'text');
+          });
+        });
+      }
     }
 
     static localizeFormSection(i18n, section) {
