@@ -287,7 +287,7 @@ mixin table-field(field, value, readonly)
                         when 'enum'
                           select.form-control
                             each value in column.values
-                              option(data-other=value.other)
+                              option(value=value.value, data-other=value.other)
                                 =value.text
                         when 'date'
                           input.form-control(type="text",name=column.name,title=column.title,required=column.required,data-type="table-date")
