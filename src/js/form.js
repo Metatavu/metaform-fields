@@ -394,6 +394,14 @@
       
     },
     
+    removeAllRows: function () {
+      this.element.find('tbody').empty();
+    },
+    
+    addRow: function (data) {
+      this._addRow(data);
+    },
+    
     _processTableRow: function(row) {
       $(row).find('[data-column-type="enum"] select').each($.proxy(function (index, select) {
         this._refreshEnumSelect($(select));
@@ -408,14 +416,16 @@
       }, this));
     },
     
-    _addRow: function () {
+    _addRow: function (data) {
       var clonedRow = this.tableRow.clone();
       clonedRow.appendTo(this.element.find('tbody'));
-      clonedRow.find('input').each($.proxy(function (index, input) {
-        $(input).val('');
+      clonedRow.find('input,select').each($.proxy(function (index, input) {
+        const columnName = $(input).closest('td').attr('data-column-name');
+        $(input).val(data ? data[columnName] : '');
       }, this));
       
       this._processTableRow(clonedRow);
+      this._refresh();
     },
     
     _refresh: function () {
@@ -488,6 +498,11 @@
           if (option.attr('data-other')) {
             return option.text() + ' ' + $(cell).find('input.enum-other').val();
           } else {
+            var value = option.attr('value');
+            if (value) {
+              return value;
+            }
+            
             return option.text();
           }
         break;
