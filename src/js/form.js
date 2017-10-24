@@ -200,6 +200,19 @@
       return returnArray ? this.element.serializeArray() : this.element.serialize();
     },
     
+    submit: function () {
+      this.element.submit();
+    },
+    
+    addData: function(key, value) {
+      var dataInput = $('<input>')
+        .attr('name', key)
+        .attr('type', 'hidden')
+        .val(value);
+
+      this.element.append(dataInput);
+    },
+    
     _createDatePickers: function () {
       this.element.find('input[data-type="date"]').each(function (index, input) {
         MetaformUtils.createDatePicker(input);
