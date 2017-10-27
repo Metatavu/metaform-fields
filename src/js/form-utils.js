@@ -1,5 +1,4 @@
-(function(){
-  
+(function($) {
   'use strict';
   
   window.MetaformUtils = {
@@ -36,6 +35,6 @@
     }
   };
   
-})();
+})(jQuery);
 
 

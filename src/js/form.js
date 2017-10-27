@@ -1,5 +1,5 @@
 /* global Modernizr, pdfMake, MetaformUtils, hyperform, bootbox */
-(function(){
+(function($) {
   'use strict';
   
   $.widget("custom.metaformMultivalueAutocomplete", {
@@ -772,4 +772,4 @@
     $('.table-field').tableField();
   });
   
-}).call(this);
+})(jQuery);
