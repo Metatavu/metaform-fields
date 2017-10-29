@@ -259,11 +259,12 @@
         }
       }
       
-      this.element.find(`#${formGroupId}`).hide();
+      if (!this._evaluateFormRule(rule)) {
+        this.element.find(`#${formGroupId}`).hide();
+      }
     },
     
     _evaluateFormRule: function(rule) {
-      
       var equals = false;
       var analyzed = false;
 
@@ -319,6 +320,7 @@
       
       return equals;
     },
+    
     _createFormChangeFunction: function(formGroupId, rule) {
       return function(e) {
         var formGroup = this.element.find(`#${formGroupId}`);
