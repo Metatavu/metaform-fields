@@ -54,10 +54,10 @@
       }).get();
       
       var inputName = this.element.attr('data-name');
-      $('input[name="' + inputName + '"]').val(values.join(','));
+      this.element.find('input[name="' + inputName + '"]').val(values.join(','));
       
       if (this._required) {
-        var empty = !$('input[name="' + inputName + '"]').val();
+        var empty = !this.element.find('input[name="' + inputName + '"]').val();
         this.element[0].setCustomValidity(empty ? 'This is a required field' : '');
       }
     },
@@ -125,7 +125,7 @@
     
     _getInput: function () {
       var inputName = this.element.attr('data-name');
-      return $('input[name="' + inputName + '"]');
+      return this.element.find('input[name="' + inputName + '"]');
     },
     
     _onFocus: function () {
@@ -240,7 +240,7 @@
       if (typeof(currentRule.field) !== 'undefined' && this.attachedVisibleIfListeners.indexOf(currentRule.field) === -1) {
         this.attachedVisibleIfListeners.push(currentRule.field);
         
-        $('input[name="'+currentRule.field+'"],select[name="'+currentRule.field+'"]')
+        this.element.find('input[name="'+currentRule.field+'"],select[name="'+currentRule.field+'"]')
           .change($.proxy(this._createFormChangeFunction(formGroupId, rule), this))
           .keyup($.proxy(this._createFormChangeFunction(formGroupId, rule), this));
       }
@@ -259,21 +259,22 @@
         }
       }
       
-      $('#' + formGroupId).hide();
+      this.element.find(`#${formGroupId}`).hide();
     },
+    
     _evaluateFormRule: function(rule) {
       
       var equals = false;
       var analyzed = false;
 
       if (typeof(rule.field) !== 'undefined') {
-        var inputElement = $('input[name="'+rule.field+'"],select[name="'+rule.field+'"]').first();
+        var inputElement = this.element.find('input[name="'+rule.field+'"],select[name="'+rule.field+'"]').first();
         var currentValue = '';
         var checked = false;
         
         if( inputElement.is(':checkbox') || inputElement.is(':radio')) {
-          checked = $('input[name="'+rule.field+'"]:checked').length > 0;
-          currentValue = $('input[name="'+rule.field+'"]:checked').val();
+          checked = this.element.find('input[name="'+rule.field+'"]:checked').length > 0;
+          currentValue = this.element.find('input[name="'+rule.field+'"]:checked').val();
         } else {
           checked = inputElement.val() ? true : false;
           currentValue = inputElement.val();
@@ -320,7 +321,7 @@
     },
     _createFormChangeFunction: function(formGroupId, rule) {
       return function(e) {
-        var formGroup = $('#' + formGroupId);
+        var formGroup = this.element.find(`#${formGroupId}`);
         var equals = this._evaluateFormRule(rule);
         
         if(equals && !formGroup.is(':visible')) {
