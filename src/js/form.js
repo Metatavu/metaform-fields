@@ -259,14 +259,15 @@
         }
       }
       
-      this.element.find(`#${formGroupId}`).hide();
+      if (!this._evaluateFormRule(rule)) {
+        this.element.find(`#${formGroupId}`).hide();
+      }
     },
     
     _evaluateFormRule: function(rule) {
-      
       var equals = false;
       var analyzed = false;
-
+      
       if (typeof(rule.field) !== 'undefined') {
         var inputElement = this.element.find('input[name="'+rule.field+'"],select[name="'+rule.field+'"]').first();
         var currentValue = '';
@@ -292,7 +293,7 @@
           equals = rule['not-equals'] !== currentValue;
         }
       }
-
+      
       if (typeof(rule.and) !== 'undefined') {
         var andResult = true;
         for (var i = 0; i < rule.and.length; i++) {
@@ -319,17 +320,18 @@
       
       return equals;
     },
+    
     _createFormChangeFunction: function(formGroupId, rule) {
       return function(e) {
         var formGroup = this.element.find(`#${formGroupId}`);
         var equals = this._evaluateFormRule(rule);
         
         if(equals && !formGroup.is(':visible')) {
-          formGroup.slideToggle(400, function() {
+          formGroup.slideDown(400, function() {
             this._onRequiredFieldsVisibilityChange(formGroup, 'SHOW');
           }.bind(this));
-        } else if(!equals && formGroup.is(':visible')){
-          formGroup.slideToggle(400, function() {
+        } else if(!equals && formGroup.is(':visible')) {
+          formGroup.slideUp(400, function() {
             this._onRequiredFieldsVisibilityChange(formGroup, 'HIDE');
           }.bind(this));
         }
