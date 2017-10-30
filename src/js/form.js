@@ -267,7 +267,7 @@
     _evaluateFormRule: function(rule) {
       var equals = false;
       var analyzed = false;
-
+      
       if (typeof(rule.field) !== 'undefined') {
         var inputElement = this.element.find('input[name="'+rule.field+'"],select[name="'+rule.field+'"]').first();
         var currentValue = '';
@@ -293,7 +293,7 @@
           equals = rule['not-equals'] !== currentValue;
         }
       }
-
+      
       if (typeof(rule.and) !== 'undefined') {
         var andResult = true;
         for (var i = 0; i < rule.and.length; i++) {
@@ -327,11 +327,11 @@
         var equals = this._evaluateFormRule(rule);
         
         if(equals && !formGroup.is(':visible')) {
-          formGroup.slideToggle(400, function() {
+          formGroup.slideDown(400, function() {
             this._onRequiredFieldsVisibilityChange(formGroup, 'SHOW');
           }.bind(this));
-        } else if(!equals && formGroup.is(':visible')){
-          formGroup.slideToggle(400, function() {
+        } else if(!equals && formGroup.is(':visible')) {
+          formGroup.slideUp(400, function() {
             this._onRequiredFieldsVisibilityChange(formGroup, 'HIDE');
           }.bind(this));
         }
