@@ -346,45 +346,45 @@ mixin unknown-field(field)
 mixin field(field, value, readonly)
   case field.type 
     when 'text'
-      +text-field(field, value, readonly)
+      +text-field(field, value, readonly || field.readonly)
     when 'hidden'
       +hidden-field(field, value)
     when 'email'
-      +email-field(field, value, readonly)
+      +email-field(field, value, readonly || field.readonly)
     when 'number'
-      +number-field(field, value, readonly)
+      +number-field(field, value, readonly || field.readonly)
     when 'memo'
-      +memo-field(field, value, readonly)
+      +memo-field(field, value, readonly || field.readonly)
     when 'boolean'
-      +boolean-field(field, value, readonly)
+      +boolean-field(field, value, readonly || field.readonly)
     when 'radio'
-      +radio-field(field, value, readonly)
+      +radio-field(field, value, readonly || field.readonly)
     when 'checklist'
-      +checklist-field(field, value, readonly)
+      +checklist-field(field, value, readonly || field.readonly)
     when 'date'
-      +date-field(field, value, readonly)
+      +date-field(field, value, readonly || field.readonly)
     when 'time'
-      +time-field(field, value, readonly)
+      +time-field(field, value, readonly || field.readonly)
     when 'date-time'
-      +date-time-field(field, value, readonly)
+      +date-time-field(field, value, readonly || field.readonly)
     when 'files'
-      +files-field(field, value, readonly)
+      +files-field(field, value, readonly || field.readonly)
     when 'table'
-      +table-field(field, value, readonly)
+      +table-field(field, value, readonly || field.readonly)
     when 'logo'
-      +logo-field(field, value, readonly)
+      +logo-field(field, value, readonly || field.readonly)
     when 'small-text'
-      +small-text-field(field, value, readonly)
+      +small-text-field(field, value, readonly || field.readonly)
     when 'html'
-      +html-field(field, value, readonly)
+      +html-field(field, value, readonly || field.readonly)
     when 'submit'
-      +submit-field(field, value, readonly)
+      +submit-field(field, value, readonly || field.readonly)
     when 'select'
-      +select-field(field, value, readonly)
+      +select-field(field, value, readonly || field.readonly)
     when 'autocomplete'
-      +autocomplete-field(field, value, readonly)
+      +autocomplete-field(field, value, readonly || field.readonly)
     when 'autocomplete-multiple'
-      +autocomplete-multiple-field(field, value, readonly)
+      +autocomplete-multiple-field(field, value, readonly || field.readonly)
     default
       +unknown-field(field)
       
