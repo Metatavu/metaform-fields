@@ -248,7 +248,7 @@ mixin files-field(field, fileMetas, readonly)
           =field.help
           
 mixin table-field(field, value, readonly)
-  .form-group.table-field.row(data-field-name=field.name,data-field-title=field.title, data-visible-if=field['visible-if'],id="fg-" + field.name)
+  .form-group.table-field.row(data-field-name=field.name,data-field-title=field.title, data-visible-if=field['visible-if'],id="fg-" + field.name,data-values=value)
     .col-12
       .row
         .col-12
@@ -293,7 +293,6 @@ mixin table-field(field, value, readonly)
                           input.form-control(type="text",name=column.name,title=column.title,required=column.required,data-type="table-date")
                         when 'time'
                            input.form-control(type="text",name=column.name,title=column.title,required=column.required,data-type="table-time")
-                          
               tfoot
                 tr
                   each column, columnIndex in field.columns
