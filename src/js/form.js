@@ -26,7 +26,8 @@
     },
     
     _loadValues: function () {
-      var valuesAttr = this.element.attr('data-values');
+      const valuesAttr = this.element.attr('data-values');
+      
       if (valuesAttr) {
         var values = JSON.parse(valuesAttr);
         for (var i = 0; i < values.length; i++) {
@@ -170,6 +171,9 @@
   $.widget("custom.metaform", {
     
     _create : function() {
+      this.element.find('.file-component').fileField();
+      this.element.find('.table-field').tableField();
+    
       this.attachedVisibleIfListeners = [];
       
       this.element.on("submit", $.proxy(this._onFormSubmit, this));
@@ -408,6 +412,7 @@
         this._processTableRow(row);
       }, this));
       
+      this._loadValues();
     },
     
     removeAllRows: function () {
@@ -416,6 +421,19 @@
     
     addRow: function (data) {
       this._addRow(data);
+    },
+    
+    _loadValues: function () {
+      const valuesAttr = this.element.attr('data-values');
+      
+      if (valuesAttr) {
+        this.removeAllRows();
+        
+        const rowDatas = JSON.parse(valuesAttr);
+        rowDatas.forEach((rowData) => {
+          this.addRow(rowData);
+        });
+      }
     },
     
     _processTableRow: function(row) {
@@ -771,8 +789,6 @@
     }
     
     $('form.metaform').metaform();
-    $('.file-component').fileField();
-    $('.table-field').tableField();
   });
   
 })(jQuery);
