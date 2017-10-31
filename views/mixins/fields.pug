@@ -7,7 +7,7 @@ mixin text-field(field, value, readonly)
           if field.required
             |&nbsp;*
     .col-12
-      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="text",name=field.name,title=field.title,required=field.required,readonly=readonly,value=value)
+      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="text",name=field.name,title=field.title,required=field.required,readonly=readonly,value=value,placeholder=field.placeholder)
       if field.help
         small.form-text.text-muted
           =field.help
@@ -24,7 +24,7 @@ mixin email-field(field, value, readonly)
           if field.required
             |&nbsp;*
     .col-12
-      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="email",name=field.name,title=field.title,required=field.required,readonly=readonly,value=value)
+      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="email",name=field.name,title=field.title,required=field.required,readonly=readonly,value=value,placeholder=field.placeholder)
       if field.help
         small.form-text.text-muted
           =field.help
@@ -38,7 +38,7 @@ mixin date-field(field, value, readonly)
           if field.required
             |&nbsp;*
     .col-12
-      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="text",name=field.name,title=field.title,required=field.required,readonly=readonly,data-iso-date=value,data-type="date",value=value)
+      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="text",name=field.name,title=field.title,required=field.required,readonly=readonly,data-iso-date=value,data-type="date",value=value,placeholder=field.placeholder)
       if field.help
         small.form-text.text-muted
           =field.help
@@ -52,7 +52,7 @@ mixin date-time-field(field, value, readonly)
           if field.required
             |&nbsp;*
     .col-12
-      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="text",name=field.name,title=field.title,required=field.required,readonly=readonly,data-iso-date=value,data-type="date-time",value=value)
+      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="text",name=field.name,title=field.title,required=field.required,readonly=readonly,data-iso-date=value,data-type="date-time",value=value,placeholder=field.placeholder)
       if field.help
         small.form-text.text-muted
           =field.help
@@ -66,7 +66,7 @@ mixin time-field(field, value, readonly)
           if field.required
             |&nbsp;*
     .col-12
-      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="text",name=field.name,title=field.title,required=field.required,readonly=readonly,data-iso-date=value,data-type="time",value=value)
+      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="text",name=field.name,title=field.title,required=field.required,readonly=readonly,data-iso-date=value,data-type="time",value=value,placeholder=field.placeholder)
       if field.help
         small.form-text.text-muted
           =field.help
@@ -157,7 +157,7 @@ mixin autocomplete-field(field, value, readonly)
           if field.required
             |&nbsp;*
     .col-12.sss
-      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="text",data-name=field.name,title=field.title,required=field.required,readonly=readonly,value=value,data-source-url=field['source-url'],data-type="autocomplete")
+      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="text",data-name=field.name,title=field.title,required=field.required,readonly=readonly,value=value,data-source-url=field['source-url'],data-type="autocomplete",placeholder=field.placeholder)
       input(type="hidden",name=field.name)
       if field.help
         small.form-text.text-muted
@@ -172,7 +172,7 @@ mixin autocomplete-multiple-field(field, value, readonly)
           if field.required
             |&nbsp;*
     .col-12
-      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="text",data-name=field.name,title=field.title,data-required=field.required,readonly=readonly,value=value,data-source-url=field['source-url'],data-type="autocomplete-multiple")
+      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="text",data-name=field.name,title=field.title,data-required=field.required,readonly=readonly,value=value,data-source-url=field['source-url'],data-type="autocomplete-multiple",placeholder=field.placeholder)
       input(type="hidden",name=field.name)
       if field.help
         small.form-text.text-muted
@@ -212,7 +212,7 @@ mixin memo-field(field, value, readonly)
           if field.required
             |&nbsp;*
     .col-12
-      textarea.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,name=field.name,title=field.title,required=field.required,readonly=readonly)
+      textarea.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,name=field.name,title=field.title,required=field.required,readonly=readonly,placeholder=field.placeholder)
         =value
       if field.help
         small.form-text.text-muted
@@ -239,7 +239,7 @@ mixin files-field(field, fileMetas, readonly)
         .file-component(data-field-name=field.name, data-upload-url=uploadUrl, data-single-file=field['single-file'], data-only-images=field['only-images'], data-max-file-size=field['max-file-size'])
           button.add-file-button.btn.btn-success
             |+ Lisää tiedosto
-          input.form-control-file(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="file",multiple="multiple",name='file',title=field.title,required=field.required,readonly=readonly)
+          input.form-control-file(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="file",multiple="multiple",name='file',title=field.title,required=field.required,readonly=readonly,placeholder=field.placeholder)
           .progress
             .progress-bar(role='progressbar',aria-valuemin='0',aria-valuemax='100',aria-valuenow='0')
           .files
@@ -281,18 +281,18 @@ mixin table-field(field, value, readonly)
                     td(data-column-type=column.type,data-column-name=column.name)
                       case column.type 
                         when 'text'
-                          input.form-control(type="text")
+                          input.form-control(type="text",placeholder=column.placeholder)
                         when 'number'
-                          input.form-control(type="number",lang='fi',min=column.min,max=column.max,step=column.step)
+                          input.form-control(type="number",lang='fi',min=column.min,max=column.max,step=column.step,placeholder=column.placeholder)
                         when 'enum'
                           select.form-control
                             each value in column.values
                               option(value=value.value, data-other=value.other)
                                 =value.text
                         when 'date'
-                          input.form-control(type="text",name=column.name,title=column.title,required=column.required,data-type="table-date")
+                          input.form-control(type="text",name=column.name,title=column.title,required=column.required,data-type="table-date",placeholder=column.placeholder)
                         when 'time'
-                           input.form-control(type="text",name=column.name,title=column.title,required=column.required,data-type="table-time")
+                           input.form-control(type="text",name=column.name,title=column.title,required=column.required,data-type="table-time",placeholder=column.placeholder)
               tfoot
                 tr
                   each column, columnIndex in field.columns
