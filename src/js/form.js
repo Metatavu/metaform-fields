@@ -427,6 +427,7 @@
       const row = this.element.find(`tbody tr:nth-of-type(${rowIndex + 1})`);
       const cell = row.find(`td[data-column-name="${columnName}"]`);
       this._setCellValue(cell, value);
+      this._refresh();
     },
     
     _loadValues: function () {
