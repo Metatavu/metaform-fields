@@ -55,10 +55,10 @@
       }).get();
       
       var inputName = this.element.attr('data-name');
-      this.element.find('input[name="' + inputName + '"]').val(values.join(','));
+      this.element.closest('.metaform').find('input[name="' + inputName + '"]').val(values.join(','));
       
       if (this._required) {
-        var empty = !this.element.find('input[name="' + inputName + '"]').val();
+        var empty = !this.element.closest('.metaform').find('input[name="' + inputName + '"]').val();
         this.element[0].setCustomValidity(empty ? 'This is a required field' : '');
       }
     },
@@ -126,7 +126,7 @@
     
     _getInput: function () {
       var inputName = this.element.attr('data-name');
-      return this.element.find('input[name="' + inputName + '"]');
+      return this.element.closest('.metaform').find('input[name="' + inputName + '"]');
     },
     
     _onFocus: function () {
