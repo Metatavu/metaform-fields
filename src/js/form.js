@@ -423,6 +423,12 @@
       this._addRow(data);
     },
     
+    setCellValue: function (columnName, row, value) {
+      const row = this.element.find(`tbody tr:nth-of-type(${row+ 1})`);
+      const cell =row.find(`td[data-column-name="${columnName}]`);
+      this._setCellValue(cell, value);
+    },
+    
     _loadValues: function () {
       const valuesAttr = this.element.attr('data-values');
       
@@ -546,6 +552,10 @@
       }
       
       return null;
+    },
+    
+    _setCellValue: function (cell, value) {
+      $(cell).find('input').val(value);
     },
     
     _generatePrintableTable: function () {
