@@ -267,10 +267,10 @@ mixin table-field(field, value, readonly)
               thead
                 each column in field.columns
                   if column.type === 'hidden'
+                    th(style="display: none")
+                  else
                     th(data-calculate-sum=column['calculate-sum'] ? 'true' : 'false',width=column['column-width'])
                       =column.title
-                  else
-                    th(style="display: none")
               tbody
                 if readonly
                   if value && value.length
