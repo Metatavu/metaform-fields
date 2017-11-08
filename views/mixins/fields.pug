@@ -302,6 +302,9 @@ mixin table-field(field, value, readonly)
                             input.form-control(type="text",name=column.name,title=column.title,required=column.required,data-type="table-time",placeholder=column.placeholder)
                           when 'html'
                             !=column.html
+                          when 'button'
+                            button.btn(class=column.class,data-action=column.action)
+                              =column.text
               - var printFooter = false
               each column, columnIndex in field.columns
                 if column['calculate-sum']
