@@ -397,6 +397,7 @@
       this.element.on('click', '.print-table', $.proxy(this._onPrintTableClick, this));
       this.element.on('change', 'input', $.proxy(this._onInputChange, this));
       this.element.on('change', 'td[data-column-type="enum"] select', $.proxy(this._onEnumSelectChange, this));
+      this.element.on('click', 'td button[data-action="delete-row"]', $.proxy(this._onDeleteRowClick, this));
 
       this._refresh();
 
@@ -515,21 +516,6 @@
       }
     },
     
-    _onAddtableRowClick: function (event) {
-      event.preventDefault();
-      this._addRow();
-    },
-    
-    _onInputChange: function (event) {
-      event.preventDefault();
-      this._refresh();
-    },
-    
-    _onEnumSelectChange: function (event) {
-      this._refreshEnumSelect($(event.target));
-      this._refresh();
-    },
-    
     _getCellValue: function (cell) {
       var columnType = $(cell).attr('data-column-type');
       
@@ -634,6 +620,26 @@
       
       pdfMake.createPdf(docDefinition)
         .download(this.element.attr('data-field-name') + '.pdf');
+    },
+    
+    _onAddtableRowClick: function (event) {
+      event.preventDefault();
+      this._addRow();
+    },
+    
+    _onInputChange: function (event) {
+      event.preventDefault();
+      this._refresh();
+    },
+    
+    _onEnumSelectChange: function (event) {
+      this._refreshEnumSelect($(event.target));
+      this._refresh();
+    },
+    
+    _onDeleteRowClick: function (event) {
+      $(event.target).closest('tr').remove();
+      this._refresh();
     }
     
   });
