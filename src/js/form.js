@@ -4,6 +4,7 @@
   
   $.widget("custom.metaformMultivalueAutocomplete", {
     options: {
+      customSource: null
     },
 
     _create : function() {
@@ -24,7 +25,7 @@
       
       this._loadValues();
     },
-    
+     
     _loadValues: function () {
       const valuesAttr = this.element.attr('data-values');
       
@@ -81,15 +82,19 @@
     },
 
     _onSource: function (input, callback) {
-      var sourceUrl = this._sourceUrl + (this._sourceUrl.indexOf('?') === -1 ? '?q=' + input.term : '&q=' + input.term);
-      $.get(sourceUrl, function(items) {
-        callback($.map(items, function (item) {
-          return { 
-            value: item.value,
-            label: item.label
-          }; 
-        }));
-      }, "json");
+      if (this.options.customSource) {
+        this.options.customSource(input, callback);
+      } else {
+        var sourceUrl = this._sourceUrl + (this._sourceUrl.indexOf('?') === -1 ? '?q=' + input.term : '&q=' + input.term);
+        $.get(sourceUrl, function(items) {
+          callback($.map(items, function (item) {
+            return { 
+              value: item.value,
+              label: item.label
+            }; 
+          }));
+        }, "json");
+      }
     },
     
     _onChange: function (input, callback) {
@@ -98,6 +103,9 @@
   });
   
   $.widget("custom.metaformAutocomplete", {
+    options: {
+      customSource: null
+    },
     
     _create : function() {
       this._sourceUrl = this.element.attr('data-source-url');
@@ -143,15 +151,19 @@
     },
 
     _onSource: function (input, callback) {
-      var sourceUrl = this._sourceUrl + (this._sourceUrl.indexOf('?') === -1 ? '?q=' + input.term : '&q=' + input.term);
-      $.get(sourceUrl, function(items) {
-        callback($.map(items, function (item) {
-          return { 
-            value: item.value,
-            label: item.label
-          }; 
-        }));
-      }, "json");
+      if (this.options.customSource) {
+        this.options.customSource(input, callback);
+      } else {
+        var sourceUrl = this._sourceUrl + (this._sourceUrl.indexOf('?') === -1 ? '?q=' + input.term : '&q=' + input.term);
+        $.get(sourceUrl, function(items) {
+          callback($.map(items, function (item) {
+            return { 
+              value: item.value,
+              label: item.label
+            }; 
+          }));
+        }, "json");
+      }
     },
     
     _onChange: function (input, callback) {
