@@ -555,7 +555,6 @@
         break;
         case 'autocomplete':
           return $(cell).find('input[data-type="autocomplete"]').metaformAutocomplete('val').value;
-        break;
         default:
           return $(cell).find('input').val();
         break;
