@@ -550,7 +550,7 @@
           }
         break;
         case 'autocomplete':
-          return $(cell).find('input').metaformAutocomplete('val').value;
+          return $(cell).find('input[data-type="autocomplete"]').metaformAutocomplete('val').value;
         break;
         default:
           return $(cell).find('input').val();
@@ -565,7 +565,7 @@
       
       switch (columnType) {
         case 'autocomplete':
-          $(cell).find('input').metaformAutocomplete('val', {
+          $(cell).find('input[data-type="autocomplete"]').metaformAutocomplete('val', {
             value: value
           });
         break;
