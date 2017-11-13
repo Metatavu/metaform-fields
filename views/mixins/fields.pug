@@ -288,20 +288,20 @@ mixin table-field(field, value, readonly)
                       td(data-column-type=column.type,data-column-name=column.name)
                         case column.type 
                           when 'text'
-                            input.form-control(type="text",placeholder=column.placeholder)
+                            input.form-control(type="text",placeholder=column.placeholder,readyonly=column.readonly)
                           when 'autocomplete'
-                            input.form-control(type="text",placeholder=column.placeholder,required=column.required,data-source-url=column['source-url'],data-type="autocomplete")
+                            input.form-control(type="text",placeholder=column.placeholder,required=column.required,data-source-url=column['source-url'],data-type="autocomplete",readyonly=column.readonly)
                           when 'number'
-                            input.form-control(type="number",lang='fi',min=column.min,max=column.max,step=column.step,placeholder=column.placeholder)
+                            input.form-control(type="number",lang='fi',min=column.min,max=column.max,step=column.step,placeholder=column.placeholder,readyonly=column.readonly)
                           when 'enum'
-                            select.form-control
+                            select.form-control(readyonly=column.readonly)
                               each value in column.values
                                 option(value=value.value, data-other=value.other)
                                   =value.text
                           when 'date'
-                            input.form-control(type="text",name=column.name,title=column.title,required=column.required,data-type="table-date",placeholder=column.placeholder)
+                            input.form-control(type="text",name=column.name,title=column.title,required=column.required,data-type="table-date",placeholder=column.placeholder,readyonly=column.readonly)
                           when 'time'
-                            input.form-control(type="text",name=column.name,title=column.title,required=column.required,data-type="table-time",placeholder=column.placeholder)
+                            input.form-control(type="text",name=column.name,title=column.title,required=column.required,data-type="table-time",placeholder=column.placeholder,readyonly=column.readonly)
                           when 'html'
                             !=column.html
                           when 'button'
