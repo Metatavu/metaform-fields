@@ -411,8 +411,6 @@
       this.element.on('change', 'td[data-column-type="enum"] select', $.proxy(this._onEnumSelectChange, this));
       this.element.on('click', 'td button[data-action="delete-row"]', $.proxy(this._onDeleteRowClick, this));
 
-      this._refresh();
-
       if (this.element.find('th[data-calculate-sum="true"]').length) {
         this.element.find('tfoot').find('td:nth-of-type(1)')
           .html('Yhteensä:');
@@ -425,6 +423,7 @@
         this._processTableRow(row);
       }, this));
       
+      this._refresh();
       this._loadValues();
     },
     
