@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 /* global Modernizr, pdfMake, MetaformUtils, hyperform, bootbox */
 (function($) {
   'use strict';
@@ -411,8 +412,6 @@
       this.element.on('change', 'td[data-column-type="enum"] select', $.proxy(this._onEnumSelectChange, this));
       this.element.on('click', 'td button[data-action="delete-row"]', $.proxy(this._onDeleteRowClick, this));
 
-      this._refresh();
-
       if (this.element.find('th[data-calculate-sum="true"]').length) {
         this.element.find('tfoot').find('td:nth-of-type(1)')
           .html('Yhteensä:');
@@ -425,6 +424,7 @@
         this._processTableRow(row);
       }, this));
       
+      this._refresh();
       this._loadValues();
     },
     
@@ -468,6 +468,14 @@
       $(row).find('input[data-type="table-time"]').each($.proxy(function (index, input) {
         MetaformUtils.createTimePicker(input);
       }, this));
+
+      $(row).find('input[data-type="autocomplete"]').each($.proxy(function (index, input) {
+        $(input).metaformAutocomplete();
+      }, this));
+      
+      if (this.options.afterProcessRow) {
+        this.options.afterProcessRow(row);
+      }
     },
     
     _addRow: function (data) {
@@ -529,7 +537,7 @@
     },
     
     _getCellValue: function (cell) {
-      var columnType = $(cell).attr('data-column-type');
+      const columnType = $(cell).attr('data-column-type');
       
       switch (columnType) {
         case 'enum':
@@ -545,6 +553,8 @@
             return option.text();
           }
         break;
+        case 'autocomplete':
+          return $(cell).find('input[data-type="autocomplete"]').metaformAutocomplete('val').value;
         default:
           return $(cell).find('input').val();
         break;
@@ -554,7 +564,18 @@
     },
     
     _setCellValue: function (cell, value) {
-      $(cell).find('input').val(value);
+      const columnType = $(cell).attr('data-column-type');
+      
+      switch (columnType) {
+        case 'autocomplete':
+          $(cell).find('input[data-type="autocomplete"]').metaformAutocomplete('val', {
+            value: value
+          });
+        break;
+        default:
+          $(cell).find('input').val(value);
+        break;
+      }
     },
     
     _generatePrintableTable: function () {
