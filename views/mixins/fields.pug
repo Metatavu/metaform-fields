@@ -290,7 +290,7 @@ mixin table-field(field, value, readonly)
                           when 'text'
                             input.form-control(type="text",placeholder=column.placeholder)
                           when 'autocomplete'
-                            input.form-control(type="text",placeholder=column.placeholder,required=field.required,data-source-url=field['source-url'],data-type="autocomplete")
+                            input.form-control(type="text",placeholder=column.placeholder,required=column.required,data-source-url=column['source-url'],data-type="autocomplete")
                           when 'number'
                             input.form-control(type="number",lang='fi',min=column.min,max=column.max,step=column.step,placeholder=column.placeholder)
                           when 'enum'
