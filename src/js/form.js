@@ -135,8 +135,7 @@
     },
     
     _getInput: function () {
-      var inputName = this.element.attr('data-name');
-      return this.element.closest('.metaform').find('input[name="' + inputName + '"]');
+      return this.element.closest('.autocomplete-field-container').find('input[data-autocomplete-field-hidden="true"]');
     },
     
     _onFocus: function () {
