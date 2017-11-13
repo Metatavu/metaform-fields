@@ -472,6 +472,10 @@
       $(row).find('input[data-type="autocomplete"]').each($.proxy(function (index, input) {
         $(input).metaformAutocomplete();
       }, this));
+      
+      if (this.options.afterProcessRow) {
+        this.options.afterProcessRow(row);
+      }
     },
     
     _addRow: function (data) {
