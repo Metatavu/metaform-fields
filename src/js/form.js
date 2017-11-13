@@ -1,4 +1,4 @@
-/* esversion: 6 */
+/*jshint esversion: 6 */
 /* global Modernizr, pdfMake, MetaformUtils, hyperform, bootbox */
 (function($) {
   'use strict';
