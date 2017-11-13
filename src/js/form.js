@@ -468,6 +468,10 @@
       $(row).find('input[data-type="table-time"]').each($.proxy(function (index, input) {
         MetaformUtils.createTimePicker(input);
       }, this));
+
+      $(row).find('input[data-type="autocomplete"]').each($.proxy(function (index, input) {
+        $(input).metaformAutocomplete();
+      }, this));
     },
     
     _addRow: function (data) {
@@ -529,7 +533,7 @@
     },
     
     _getCellValue: function (cell) {
-      var columnType = $(cell).attr('data-column-type');
+      const columnType = $(cell).attr('data-column-type');
       
       switch (columnType) {
         case 'enum':
@@ -545,6 +549,9 @@
             return option.text();
           }
         break;
+        case 'autocomplete':
+          return $(cell).find('input').metaformAutocomplete('val').value;
+        break;
         default:
           return $(cell).find('input').val();
         break;
@@ -554,7 +561,18 @@
     },
     
     _setCellValue: function (cell, value) {
-      $(cell).find('input').val(value);
+      const columnType = $(cell).attr('data-column-type');
+      
+      switch (columnType) {
+        case 'autocomplete':
+          $(cell).find('input').metaformAutocomplete('val', {
+            value: value
+          });
+        break;
+        default:
+          $(cell).find('input').val(value);
+        break;
+      }
     },
     
     _generatePrintableTable: function () {
