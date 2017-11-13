@@ -130,6 +130,7 @@
       } else {
         this.element.val(item.label);
         this._getInput().val(item.value);
+        this.element.trigger("metaformAutocompleteChange", this.val());
       }
     },
     
@@ -410,6 +411,7 @@
       this.element.on('click', '.print-table', $.proxy(this._onPrintTableClick, this));
       this.element.on('change', 'input', $.proxy(this._onInputChange, this));
       this.element.on('change', 'td[data-column-type="enum"] select', $.proxy(this._onEnumSelectChange, this));
+      this.element.on('metaformAutocompleteChange', 'input[data-type="autocomplete"]', $.proxy(this._onAutocompleteChange, this));
       this.element.on('click', 'td button[data-action="delete-row"]', $.proxy(this._onDeleteRowClick, this));
 
       if (this.element.find('th[data-calculate-sum="true"]').length) {
@@ -519,7 +521,19 @@
         datas.push(rowDatas);
       }, this));
       
-      this.element.find('input[name="' + this.element.attr('data-field-name') + '"]').val(JSON.stringify(datas));
+      const oldValue = this.element.find('input[name="' + this.element.attr('data-field-name') + '"]').val();
+      const newValue = JSON.stringify(datas);
+      
+      if (oldValue !== newValue) {
+        this.element.find('input[name="' + this.element.attr('data-field-name') + '"]').val(newValue);
+        
+        if (this.options.onValueChange) {
+          this.options.onValueChange({
+            newValue: newValue,
+            oldValue: oldValue
+          }); 
+        }
+      }
     },
     
     _refreshEnumSelect: function (enumSelect) {
@@ -661,6 +675,11 @@
     },
     
     _onInputChange: function (event) {
+      event.preventDefault();
+      this._refresh();
+    },
+    
+    _onAutocompleteChange: function (event) {
       event.preventDefault();
       this._refresh();
     },
