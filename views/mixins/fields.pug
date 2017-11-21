@@ -248,7 +248,7 @@ mixin files-field(field, fileMetas, readonly)
           =field.help
           
 mixin table-field(field, value, readonly)
-  .form-group.table-field.row(data-field-name=field.name,data-field-title=field.title, data-visible-if=field['visible-if'],id="fg-" + field.name,data-values=value)
+  .form-group.table-field.row(data-field-name=field.name,data-field-title=field.title, data-visible-if=field['visible-if'],id="fg-" + field.name,data-values=value,data-draggable=field.draggable)
     .col-12
       .row
         .col-12
@@ -265,6 +265,8 @@ mixin table-field(field, value, readonly)
                 |&nbsp;Tulosta
             table.table(data-field-name=field.name)
               thead
+                if field.draggable
+                  th.sort-header
                 each column in field.columns
                   if column.type === 'hidden'
                     th(style="display: none")
@@ -280,6 +282,9 @@ mixin table-field(field, value, readonly)
                           td
                             =row[column.name]
                 else
+                  if field.draggable
+                    td.sort-handle
+                      |&#9995;
                   each column, columnIndex in field.columns
                     if column.type === 'hidden'
                       td(data-column-type=column.type,data-column-name=column.name,style="display: none")

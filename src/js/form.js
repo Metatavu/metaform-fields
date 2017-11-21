@@ -420,6 +420,15 @@
           .html('&nbsp;');
       }
       
+      if (this.element.attr('data-draggable')) {
+        this.element.find('tbody').sortable({
+          handle: ".sort-handle",
+          stop: (event, ui) => {
+            this._refresh(); 
+          }
+        });
+      }
+      
       this.element.find('tbody tr').each($.proxy(function (index, row) {
         this._processTableRow(row);
       }, this));
@@ -479,7 +488,7 @@
     },
     
     _addRow: function (data) {
-      var clonedRow = this.tableRow.clone();
+      const clonedRow = this.tableRow.clone();
       clonedRow.appendTo(this.element.find('tbody'));
       clonedRow.find('input,select').each($.proxy(function (index, input) {
         const columnName = $(input).closest('td').attr('data-column-name');

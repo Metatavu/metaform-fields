@@ -38,6 +38,14 @@
     margin-bottom: 0px;
     min-width: 500px;
     
+    td.sort-handle {
+      font-size: 32px;
+      text-align: center;
+      max-width: 20px;
+      cursor: move;
+      line-height: 32px;
+    }
+    
     th,
     td {
       padding-left: 0px;
