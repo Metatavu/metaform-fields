@@ -367,6 +367,10 @@
 
     _onFormSubmit: function (event) {
       event.preventDefault();
+      if ($.isFunction(this.options.beforeFormSubmit)) {
+        this.options.beforeFormSubmit();
+      }
+      
       var data = this.val(false);
 
       $.ajax({
