@@ -122,14 +122,26 @@
     },
     
     val: function (item) {
+      const valueInput = this._getInput();
+      
       if (item === undefined) {
+        let value = null;
+        if (valueInput.length > 0) {
+          value = valueInput.val();
+        } else {
+          value = this.element.attr('data-value');
+        }
         return {
-          value: this._getInput().val(),
+          value: value,
           label: this.element.val()
         };
       } else {
         this.element.val(item.label);
-        this._getInput().val(item.value);
+        if (valueInput.length > 0) {
+          valueInput.val(item.value);
+        } else {
+          this.element.attr('data-value', item.value);
+        }
       }
     },
     
