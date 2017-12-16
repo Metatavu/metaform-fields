@@ -26,13 +26,23 @@
       
       this._loadValues();
     },
+    
+    val: function (values) {
+      this._valuesContainer.find('.metaform-multivalue-autocomplete-item').remove();
+      this._addValues(values);
+    },
      
     _loadValues: function () {
       const valuesAttr = this.element.attr('data-values');
       
       if (valuesAttr) {
-        var values = JSON.parse(valuesAttr);
-        for (var i = 0; i < values.length; i++) {
+        this._addValues(JSON.parse(valuesAttr));
+      }
+    },
+    
+    _addValues: function (values) {
+      if (values) {
+        for (let i = 0; i < values.length; i++) {
           this._addItem(values[i].value, values[i].label);
         }
         
