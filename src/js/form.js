@@ -362,14 +362,13 @@
     
     _createFormChangeFunction: function(formGroupId, rule) {
       return function(e) {
-        var formGroup = this.element.find(`#${formGroupId}`);
-        var equals = this._evaluateFormRule(rule);
-        
-        if(equals && !formGroup.is(':visible')) {
+        const formGroup = this.element.find(`#${formGroupId}`);
+        const equals = this._evaluateFormRule(rule);
+        if(equals) {
           formGroup.slideDown(400, function() {
             this._onRequiredFieldsVisibilityChange(formGroup, 'SHOW');
           }.bind(this));
-        } else if(!equals && formGroup.is(':visible')) {
+        } else if(!equals) {
           formGroup.slideUp(400, function() {
             this._onRequiredFieldsVisibilityChange(formGroup, 'HIDE');
           }.bind(this));
@@ -432,7 +431,7 @@
     
     _create : function() {
       this.tableRow = this.element.find('tbody tr:first-child').clone();
-      this.element.on('click', '.add-table-row', $.proxy(this._onAddtableRowClick, this));
+      this.element.on('click', '.add-table-row', $.proxy(this._onAddTableRowClick, this));
       this.element.on('click', '.print-table', $.proxy(this._onPrintTableClick, this));
       this.element.on('change', 'input', $.proxy(this._onInputChange, this));
       this.element.on('change', 'td[data-column-type="enum"] select', $.proxy(this._onEnumSelectChange, this));
@@ -467,8 +466,14 @@
       this.element.find('tbody').empty();
     },
     
+    /**
+     * Adds new row to table.
+     * 
+     * @param {Object} data object containing name - value pairs of data
+     * @returns {Element} Added row element
+     */
     addRow: function (data) {
-      this._addRow(data);
+      return this._addRow(data);
     },
     
     setCellValue: function (columnName, rowIndex, value) {
@@ -523,6 +528,8 @@
       
       this._processTableRow(clonedRow);
       this._refresh();
+      
+      return clonedRow;
     },
     
     _refresh: function () {
@@ -690,7 +697,7 @@
         .download(this.element.attr('data-field-name') + '.pdf');
     },
     
-    _onAddtableRowClick: function (event) {
+    _onAddTableRowClick: function (event) {
       event.preventDefault();
       this._addRow();
     },
