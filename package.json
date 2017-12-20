@@ -1,6 +1,6 @@
 {
   "name": "metaform-fields",
-  "version": "0.6.11",
+  "version": "0.6.12",
   "description": "Field templates for Metaform",
   "author": {
     "name": "Metatavu",
@@ -8,6 +8,7 @@
   },
   "main": "index.js",
   "dependencies": {
+    "babel-core": "^6.26.0",
     "lodash": "^4.17.4",
     "pug-load": "^2.0.8"
   },
