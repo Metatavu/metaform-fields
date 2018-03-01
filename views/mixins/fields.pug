@@ -116,16 +116,17 @@ mixin radio-field(field, value, readonly)
     .col-12
       each option in field.options
         .form-check
-          label.form-check-label
-            if readonly
-              if value == option.name
-                i.fa.fa-dot-circle-o(aria-hidden="true")
-              else
-                i.fa.fa-circle-o(aria-hidden="true")
+          if readonly
+            if value == option.name
+              i.fa.fa-dot-circle-o(aria-hidden="true")
             else
-              input.form-check-input(type="radio",name=field.name, value=option.name,checked=(value && value == option.name) || (!value && option.checked))
-            |&nbsp;
-          =option.text
+              i.fa.fa-circle-o(aria-hidden="true")
+          else
+            input.form-check-input(id='mfri-' + field.name + '-' + option.name, type="radio",name=field.name, value=option.name,checked=(value && value == option.name) || (!value && option.checked))
+          |&nbsp;
+          label.form-check-label(for='mfri-' + field.name + '-' + option.name)
+            span
+              =option.text
       if field.help
         small.form-text.text-muted
           =field.help
