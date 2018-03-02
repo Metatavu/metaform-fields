@@ -2,7 +2,7 @@
 /* global Modernizr, pdfMake, MetaformUtils, hyperform, bootbox */
 (function($) {
   'use strict';
-  
+
   $.widget("custom.metaformMultivalueAutocomplete", {
     options: {
       customSource: null
@@ -204,6 +204,12 @@
   });
 	
   $.widget("custom.metaform", {
+
+    options: {
+      animation: {
+        framework: 'default'
+      }
+    },
     
     _create : function() {
       this.element.find('.file-component').fileField();
@@ -364,16 +370,49 @@
       return function(e) {
         const formGroup = this.element.find(`#${formGroupId}`);
         const equals = this._evaluateFormRule(rule);
-        if(equals) {
-          formGroup.slideDown(400, function() {
+
+        if (equals) {
+          this._show(formGroup, () => {
             this._onRequiredFieldsVisibilityChange(formGroup, 'SHOW');
-          }.bind(this));
+          });
         } else if(!equals) {
-          formGroup.slideUp(400, function() {
+          this._hide(formGroup, () => {
             this._onRequiredFieldsVisibilityChange(formGroup, 'HIDE');
-          }.bind(this));
+          });
         }
       };
+    },
+
+    _show: function (element, callback) {
+      const show = this.options.animation.show || {};
+      const duration = show.duration || 400;
+      const options = show.options || {};
+      const effect = show.effect || 'slide';
+
+      switch (this.options.animation.framework) {
+        case 'jquery-ui':
+          element.show(effect, options, duration, callback);
+        break;
+        default:
+          element.slideDown(duration, callback);
+        break;
+      }
+    },
+
+    _hide: function (element, callback) {
+      const hide = this.options.animation.hide || {};
+      const duration = hide.duration || 400;
+      const options = hide.options || {};
+      const effect = hide.effect || 'slide';
+
+      switch (this.options.animation.framework) {
+        case 'jquery-ui':
+          element.hide(effect, options, duration, callback);
+        break;
+        default:
+          element.slideUp(duration, callback);
+        break;
+      }
     },
 
     _onRequiredFieldsVisibilityChange: function(container, action) {  
