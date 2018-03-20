@@ -372,12 +372,26 @@
         const equals = this._evaluateFormRule(rule);
 
         if (equals) {
+          this.element.trigger("beforeShow", {
+            target: formGroup
+          });
+        
           this._show(formGroup, () => {
             this._onRequiredFieldsVisibilityChange(formGroup, 'SHOW');
+            this.element.trigger("afterShow", {
+              target: formGroup
+            });
           });
         } else if(!equals) {
+          this.element.trigger("beforeHide", {
+            target: formGroup
+          });
+        
           this._hide(formGroup, () => {
             this._onRequiredFieldsVisibilityChange(formGroup, 'HIDE');
+            this.element.trigger("afterHide", {
+              target: formGroup
+            });
           });
         }
       };
