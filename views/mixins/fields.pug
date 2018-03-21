@@ -97,7 +97,7 @@ mixin boolean-field(field, value, readonly)
               i.fa.fa-square-o(aria-hidden="true")
           if !readonly
             input.form-check-input(type="checkbox",name=field.name,title=field.title,checked=value||field.checked,value="true")
-            |&nbsp;
+            | 
           =field.title
           if field.required
             |&nbsp;*
@@ -123,7 +123,7 @@ mixin radio-field(field, value, readonly)
               i.fa.fa-circle-o(aria-hidden="true")
           else
             input.form-check-input(id='mfri-' + field.name + '-' + option.name, type="radio",name=field.name, value=option.name,checked=(value && value == option.name) || (!value && option.checked))
-          |&nbsp;
+          | 
           label.form-check-label(for='mfri-' + field.name + '-' + option.name)
             span
               =option.text
@@ -198,7 +198,7 @@ mixin checklist-field(field, value, readonly)
                 i.fa.fa-square-o(aria-hidden="true")
             else
               input.form-check-input(type="checkbox",name=field.name, value=option.name,checked=(value && value.length && value.indexOf(option.name) != -1) || (!value && option.checked))
-            |&nbsp;
+            | 
           =option.text
       if field.help
         small.form-text.text-muted
