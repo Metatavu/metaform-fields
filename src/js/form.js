@@ -882,34 +882,42 @@
         });
       
       $.each(data.result, $.proxy(function (index, file) {
-        var row = $('<div>')
+        const fileId = file._id || file.fileData || file.filename;
+        const fileUrl = file.url || this._uploadUrl + fileId;
+        const deleteUrl = file.deleteUrl || '';
+        const deleteKey = file.deleteKey || '';
+        const originalName = file.originalname;
+        const fieldName = this.element.attr('data-field-name');
+
+        const row = $('<div>')
           .addClass('file row')
           .appendTo(this.element.find('.files'));
         
-        var cell = $('<div>')
+        const cell = $('<div>')
           .addClass('col-12')
           .appendTo(row);
         
         $('<input>')
           .attr({
             'type': 'hidden',
-            'name': this.element.attr('data-field-name'),
-            'value': file.url || file._id
+            'name': fieldName,
+            'value': fileId
           })
           .appendTo(cell);
         
         $('<a>')
           .attr({
-            'href': file.url || this._uploadUrl + file.fileData,
+            'href': fileUrl,
             'target': 'blank'
           })
-          .text(file.originalname)
+          .text(originalName)
           .appendTo(cell);
        
         $('<button>')
           .addClass('remove-file-button btn btn-danger btn-sm float-right')
-          .attr('data-id', file._id || file.filename)
-          .attr('data-delete-key', file.deleteKey || '')
+          .attr('data-id', fileId)
+          .attr('data-delete-key', deleteKey)
+          .attr('data-delete-url', deleteUrl)
           .text('Poista')
           .appendTo(cell);
         
@@ -928,13 +936,20 @@
     
     _onRemoveFileButtonClick: function (event) {
       event.preventDefault();
-      var button = $(event.target).closest('.remove-file-button');
-      var fileId = button.attr('data-id');
-      var deleteKey = button.attr('data-delete-key');
-      
-      let url = this._uploadUrl + fileId;
-      if (deleteKey && deleteKey.length > 0) {
-        url += '?c=' + deleteKey;
+      const button = $(event.target).closest('.remove-file-button');
+      const fileId = button.attr('data-id');
+      const deleteKey = button.attr('data-delete-key');
+      const deleteUrl = button.attr('data-delete-url');
+
+      let url = null;
+
+      if (deleteUrl) {
+        url = deleteUrl;
+      } else {
+        url = this._uploadUrl + fileId;
+        if (deleteKey && deleteKey.length > 0) {
+          url += '?c=' + deleteKey;
+        }
       }
       
       $.ajax({
