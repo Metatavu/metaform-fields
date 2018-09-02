@@ -239,6 +239,7 @@
       this._createTimePickers();
       this._createDateTimePickers();
       this._createAutocompleteFields();
+      this._createReadonlyDateTimes();
     },
     
     val: function (returnArray) {
@@ -273,6 +274,25 @@
     _createDateTimePickers: function () {
       this.element.find('input[data-type="date-time"]').each(function (index, input) {
         MetaformUtils.createDateTimePicker(input);
+      });
+    },
+
+    _createReadonlyDateTimes: function () {
+      if (typeof moment !== "function") {
+        return;
+      }
+
+      const language = window.navigator.userLanguage || window.navigator.language;
+      if (language) {
+        moment.locale(language);
+      }
+
+      this.element.find(".date-time-readonly").each(function (index, element) {
+        const value = $(element).text();
+        const format = $(element).attr("data-format");
+        if (value) {
+          $(element).text(moment(value).format(format || "LLL"));
+        }
       });
     },
     
