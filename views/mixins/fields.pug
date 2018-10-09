@@ -343,7 +343,7 @@ mixin table-field(field, value, readonly)
                               =column['sum-postfix']
               if !readonly
                 input(type="hidden",name=field.name)                             
-      if !readonly && field.addRows
+      if !readonly && field['add-rows']
         .row
           .col-12
             a.btn.btn-sm.btn-success.add-table-row

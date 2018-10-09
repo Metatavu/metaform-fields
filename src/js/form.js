@@ -212,6 +212,10 @@
     },
     
     _create : function() {
+      window.draftUrl = "/formDraft";
+      $(document).on("click", ".metaform-save-draft", $.proxy(this._saveDraft, this));
+      $(document).on("click", ".send-draft-email", $.proxy(this._sendDraftToEmail, this));
+
       this.element.find('.file-component').fileField();
       this.element.find('.table-field').tableField();
     
@@ -455,6 +459,71 @@
           $(inputElement).attr('required', 'required');
         } else if (action === 'HIDE') {
           $(inputElement).removeAttr('required');
+        }
+      });
+    },
+
+    _saveDraft: function (event) {
+      var data = this.val(false);
+      var url = location.href;
+      var urlParams = location.search;
+
+      $.ajax({
+        url: window.draftUrl,
+        data: {reply: data},
+        method: 'POST',
+        success: (response) => {
+          var responseJson = JSON.parse(response);
+          var replyId = responseJson.replyId;
+
+          if (urlParams.indexOf("replyId") >= 0) {
+            var urlObject = new URL(url);
+            urlObject.searchParams.delete('replyId');
+            url = urlObject.href;
+          }
+
+          this.drafReplytUrl = `${url}${urlParams.length > 0 ? "&" : "?"}replyId=${replyId}`;
+
+          $('.draft-response').append(`<p>Käytä allaolevaa linkkiä jatkaaksesi myöhemmin</p>`);
+          $('.draft-response').append(`<p class="draft-url">${this.drafReplytUrl}</p>`);
+          $('.draft-response').append('<button class="send-draft-email">Lähetä linkki sähköpostiin</button>');
+        },
+        error: () => {
+          $('.draft-response').text("Tapahtui virhe tallentaessa. Älä poistu sivulta ennen lomakkeen lähetystä.");
+        }
+      });
+    },
+
+    _sendDraftToEmail: function () {
+      if (!this.drafReplytUrl) {
+        return;
+      }
+
+      var url = `${window.draftUrl}/email`;
+      var email = prompt("Anna sähköpostiosoitteesi", "esimerkki@domain.fi");
+
+      if (!email) {
+        return;
+      }
+      
+      var data = {
+        email: email, 
+        draftUrl: this.drafReplytUrl
+      };
+
+      this._sendEmail(url, data);
+    },
+
+    _sendEmail: function (url, emailData) {
+      $.ajax({
+        method: 'POST',
+        url: url,
+        data: emailData,
+        success: (response) => {
+          alert("Sähköposti lähetetty!");
+        },
+        error: () => {
+          alert("Tapahtui virhe lähettäessä sähköpostia.");
         }
       });
     },

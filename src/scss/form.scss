@@ -1,3 +1,46 @@
+.metaform-draft-box {
+  position: fixed;
+  font-size: 12px;
+  padding-left: 20px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-width: 40px;
+  z-index: 9999999;
+  background-color: #343a40;
+
+  p, .draft-response p {
+    font-size: 12px;
+    color: #fff;
+    margin: 0 5px;
+  }
+
+  .draft-info, .metaform-save-draft {
+    display: inline-block;
+    margin: 0 5px;
+  }
+
+  .metaform-save-draft {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .draft-url, .send-draft-email {
+    display: inline-block;
+    margin: 0 5px;
+  }
+  
+  .send-draft-email {
+    margin-bottom: 10px;
+  }
+
+  button {
+    font-size: 12px;
+    padding: 5px 10px;
+    background-color: #007bff;
+  }
+}
+
 .bootbox-body {
   text-align: center;
 
