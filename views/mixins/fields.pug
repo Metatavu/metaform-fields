@@ -256,6 +256,16 @@ mixin files-field(field, fileMetas, readonly)
           .progress
             .progress-bar(role='progressbar',aria-valuemin='0',aria-valuemax='100',aria-valuenow='0')
           .files
+            if fileMetas
+              each fileMeta in fileMetas
+                .file.row
+                  .col-12
+                    input(name='attachments', value=fileMeta.fileData, type='hidden')
+                    a(href=uploadUrl + fileMeta.fileData, target='blank')
+                      =fileMeta.originalname
+                    button.remove-file-button.btn.btn-danger.btn-sm.float-right(data-id=fileMeta.fileData, data-delete-key=fileMeta.deleteKey, data-delete-url=fileMeta.deleteUrl)
+                      | Poista
+
       if field.help
         small.form-text.text-muted
           =field.help
