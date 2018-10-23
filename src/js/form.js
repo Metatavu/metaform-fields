@@ -503,6 +503,19 @@
   $.widget("custom.tableField", {
     
     _create : function() {
+      this.readonly = this.element.attr("data-readonly") === "true";
+      if (this.readonly) {
+        this.initializeReadonly();
+      } else {
+        this.initializeEditable();
+      }
+    },
+
+    initializeReadonly: function () {
+      this._recalculateSums();
+    },
+
+    initializeEditable: function () {
       this.tableRow = this.element.find('tbody tr:first-child').clone();
       this.element.on('click', '.add-table-row', $.proxy(this._onAddTableRowClick, this));
       this.element.on('click', '.print-table', $.proxy(this._onPrintTableClick, this));
@@ -604,24 +617,27 @@
       
       return clonedRow;
     },
-    
-    _refresh: function () {
-      var datas = [];
-      
+
+    _recalculateSums: function () {
       this.element.find('thead th[data-calculate-sum="true"]').each($.proxy(function (rowIndex, row) {
-        var sum = 0;
-        var columnIndex = $(row).index();
-        
-        this.element.find('tbody td:nth-of-type(' + (columnIndex + 1) + ' )').each(function (index, column) {
-          var value = $(column).find('input').val();
+        let sum = 0;
+        const columnIndex = $(row).index();
+
+        this.element.find('tbody td:nth-of-type(' + (columnIndex + 1) + ' )').each($.proxy(function (index, column) {
+          const value = this.readonly ? $(column).text() : $(column).find('input').val();
           if (value) {
             sum += parseFloat(value);
           }
-        });
+        }, this));
 
         this.element.find('tfoot td:nth-of-type(' + (columnIndex + 1) + ' ) .sum').text(sum);
       }, this));
+    },
+    
+    _refresh: function () {
+      this._recalculateSums();
 
+      var datas = [];
       this.element.find('tbody tr').each($.proxy(function (indexRow, row) {
         var rowDatas = {};
         
@@ -633,7 +649,7 @@
         
         datas.push(rowDatas);
       }, this));
-      
+
       this.element.find('input[name="' + this.element.attr('data-field-name') + '"]').val(JSON.stringify(datas));
     },
     

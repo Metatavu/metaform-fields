@@ -271,7 +271,7 @@ mixin files-field(field, fileMetas, readonly)
           =field.help
           
 mixin table-field(field, value, readonly)
-  .form-group.table-field.row(data-field-name=field.name,data-field-title=field.title, data-visible-if=field['visible-if'],id="fg-" + field.name,data-values=value,data-draggable=field.draggable,class=field.class)
+  .form-group.table-field.row(data-field-name=field.name,data-field-title=field.title, data-visible-if=field['visible-if'],id="fg-" + field.name,data-values=value,data-draggable=field.draggable,class=field.class,data-readonly=readonly ? "true" : "false")
     .col-12
       .row
         .col-12
@@ -340,7 +340,7 @@ mixin table-field(field, value, readonly)
                 if column['calculate-sum']
                   - printFooter = true
               if printFooter
-                tfoot
+                tfoot.border-top
                   tr
                     each column, columnIndex in field.columns
                       td
