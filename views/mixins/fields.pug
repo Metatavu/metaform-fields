@@ -286,7 +286,7 @@ mixin table-field(field, value, readonly)
               a(href='#').print-table.float-right
                 i.fa.fa-print(aria-hidden="true")
                 |&nbsp;Tulosta
-            table.table(data-field-name=field.name)
+            table.table.table-responsive(data-field-name=field.name)
               thead
                 if field.draggable
                   th.sort-header
