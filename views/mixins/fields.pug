@@ -317,6 +317,8 @@ mixin table-field(field, value, readonly)
                         case column.type 
                           when 'text'
                             input.form-control(type="text",placeholder=column.placeholder,readonly=column.readonly,required=column.required)
+                          when 'url'
+                            input.form-control(type="url",placeholder=column.placeholder,readonly=column.readonly,required=column.required)
                           when 'autocomplete'
                             input.form-control(type="text",placeholder=column.placeholder,required=column.required,data-source-url=column['source-url'],data-type="autocomplete",readonly=column.readonly)
                           when 'number'
