@@ -12,6 +12,20 @@ mixin text-field(field, value, readonly)
         small.form-text.text-muted
           =field.help
 
+mixin url-field(field, value, readonly)
+  .form-group.row(data-visible-if=field['visible-if'],id="fg-" + field.name,class=field.class)
+    if field.title
+      .col-12
+        label(for='field-' + field.name)
+          =field.title
+          if field.required
+            |&nbsp;*
+    .col-12
+      input.form-control(aria-labelledby=id='field-' + field.name,id='field-' + field.name,type="url",name=field.name,title=field.title,required=field.required,readonly=readonly,value=value,placeholder=field.placeholder)
+      if field.help
+        small.form-text.text-muted
+          =field.help
+
 mixin hidden-field(field, value)
   input(type="hidden",name=field.name,value=value,class=field.class)
           
@@ -396,6 +410,8 @@ mixin field(field, value, readonly)
   case field.type 
     when 'text'
       +text-field(field, value, readonly || field.readonly)
+    when 'url'
+      +url-field(field, value, readonly || field.readonly)
     when 'hidden'
       +hidden-field(field, value)
     when 'email'
